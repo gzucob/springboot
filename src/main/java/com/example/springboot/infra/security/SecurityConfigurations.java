@@ -26,9 +26,11 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/springboot/login"). permitAll()
+                        .requestMatchers(HttpMethod.POST, "/springboot/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/springboot/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/products/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
